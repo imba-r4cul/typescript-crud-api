@@ -50,3 +50,9 @@ tmp/
 .next/
 coverage/
 
+# Local Copilot/agent artifacts
+.agents/
+
+# Local config / secrets
+config.json
+
