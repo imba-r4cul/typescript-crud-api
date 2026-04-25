@@ -10,12 +10,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "ignoreDeprecations": "6.0" /* Added this to ignore the warnings */,
-    "baseUrl": "./src",
+
     "paths": {
-      "_helpers/*": ["_helpers/*"],
-      "_middleware/*": ["_middleware/*"],
-      "users/*": ["users/*"]
+      "_helpers/*": ["./src/_helpers/*"],
+      "_middleware/*": ["./src/_middleware/*"],
+      "users/*": ["./src/users/*"]
     }
   },
   "include": ["src/**/*"],

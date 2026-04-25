@@ -1,152 +1,82 @@
-# TypeScript CRUD API with Node.js, Express, and MySQL
+# Full-Stack TypeScript CRUD API (Lab 2 Integration)
 
-A small CRUD API built with TypeScript, Express, Sequelize, and MySQL. It manages user records and includes validation, password hashing, and typed model/service/controller code.
+This is a full-stack project I built to connect a **TypeScript CRUD API** with my existing **Lab 2 frontend**. The goal was to create a secure, reliable backend that handles user accounts, departments, and employees while ensuring everything is strictly typed for better stability.
 
-## What you need
+## 🌟 What's inside?
 
-- Node.js
-- MySQL
-- npm
-- Postman, Thunder Client, EchoAPI, or curl
+I used a modern tech stack to make sure the app is both fast and secure:
 
-## Setup
+- **TypeScript & Node.js**: For a strictly typed and predictable backend.
+- **Express**: To handle all the API routing.
+- **Sequelize & MySQL**: To manage data persistence and automatic database syncing.
+- **JWT Authentication**: To keep user sessions secure and implement Role-Based Access Control (RBAC).
 
-1. Install dependencies:
+---
+
+## 🛠️ Getting Started
+
+To get this running on your local machine, you'll just need **Node.js** and **MySQL** (I used XAMPP for my setup).
+
+### 1. Setup the Files
+
+First, clone the project and install all the necessary packages:
 
 ```bash
+git clone https://github.com/your-username/typescript-crud-api.git
+cd typescript-crud-api
 npm install
 ```
 
-2. Make sure MySQL is running on your machine.
+### 2. Configure your Database
 
-3. Update [config.json](config.json) with your local database settings:
+1. Open up **XAMPP** (or your MySQL tool) and start the MySQL service.
+2. Open the `config.json` file in the root folder. You'll need to put in your local database credentials here:
+   ```json
+   {
+     "database": {
+       "host": "localhost",
+       "user": "root",
+       "password": "",
+       "database": "typescript_crud_api"
+     },
+     "jwtSecret": "your_custom_secret_key"
+   }
+   ```
+   _Note: Don't worry about creating the database manually—the API is set up to create it for you on the first run._
 
-```json
-{
-  "database": {
-    "host": "localhost",
-    "port": 3306,
-    "user": "root",
-    "password": "",
-    "database": "typescript_crud_api"
-  },
-  "jwtSecret": "change-this-in-production-123!"
-}
-```
+### 3. Run the App
 
-4. Start the app in development mode:
+Launch the server in development mode:
 
 ```bash
 npm run start:dev
 ```
 
-If everything is working, the server starts on `http://localhost:4000` and creates the database if it does not already exist.
-
-## Build and run
-
-```bash
-npm run build
-npm start
-```
-
-## Available routes
-
-The API currently exposes these user routes:
-
-- `GET /users` - get all users
-- `GET /users/:id` - get one user
-- `POST /users` - create a user
-- `PUT /users/:id` - update a user
-- `DELETE /users/:id` - delete a user
-
-## Example requests
-
-### Create a user
-
-```http
-POST http://localhost:4000/users
-Content-Type: application/json
-
-{
-  "title": "Mr",
-  "firstName": "Jane",
-  "lastName": "Smith",
-  "email": "jane@example.com",
-  "password": "secret123",
-  "confirmPassword": "secret123",
-  "role": "User"
-}
-```
-
-Expected response:
-
-```json
-{
-  "message": "User created"
-}
-```
-
-### Get all users
-
-```http
-GET http://localhost:4000/users
-```
-
-### Update a user
-
-```http
-PUT http://localhost:4000/users/1
-Content-Type: application/json
-
-{
-  "firstName": "Janet",
-  "password": "newsecret456",
-  "confirmPassword": "newsecret456"
-}
-```
-
-### Delete a user
-
-```http
-DELETE http://localhost:4000/users/1
-```
-
-## Testing
-
-You can test the API with Postman or curl.
-
-### Curl example: create a user
-
-```bash
-curl -X POST http://localhost:4000/users ^
-  -H "Content-Type: application/json" ^
-  -d "{\"title\":\"Mr\",\"firstName\":\"Jane\",\"lastName\":\"Smith\",\"email\":\"jane@example.com\",\"password\":\"secret123\",\"confirmPassword\":\"secret123\",\"role\":\"User\"}"
-```
-
-### Curl example: get all users
-
-```bash
-curl http://localhost:4000/users
-```
-
-### Curl example: validation error
-
-```bash
-curl -X POST http://localhost:4000/users ^
-  -H "Content-Type: application/json" ^
-  -d "{\"firstName\":\"Bob\"}"
-```
-
-
-Expected response:
-
-```json
-{
-  "message": "Validation error: ..."
-}
-```
+The backend should now be live at `http://localhost:4000`.
 
 ---
 
-That’s it—spin up the server, poke at the endpoints, and see what breaks. Happy coding.
+## 🔗 How to link your Lab 2 Activity
 
+If you want to plug your own frontend into this API, I've made it pretty straightforward:
+
+1.  **Drop your files**: Put your Lab 2 HTML/CSS/JS files into the `Full-Stack-Web-App/` directory.
+2.  **Point to the API**: In your JavaScript (or the provided `api-client.js`), make sure the `API_BASE_URL` is set to `http://localhost:4000`.
+3.  **Authentication**: When a user logs in, save the token they get back into `localStorage`. The `api-client.js` is already set up to look for that token and attach it to your requests automatically.
+4.  **Test it**: Use the browser's **Network tab (F12)** to check that your requests are hitting the right endpoints.
+
+---
+
+## 📑 API Reference
+
+I've organized the routes into a few main categories:
+
+### 🔐 Authentication
+
+- `POST /auth/register` (Create a user)
+- `POST /auth/login` (Get your JWT token)
+
+### 👥 Administrative Controls (Admin Only)
+
+- `GET /users` (See everyone)
+- `GET /departments` & `GET /employees` (Management routes)

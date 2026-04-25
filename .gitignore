@@ -56,3 +56,4 @@ coverage/
 # Local config / secrets
 config.json
 
+/TypeScript_CRUD_API_with_NodeJS_Express_and_MySQL_UC.md

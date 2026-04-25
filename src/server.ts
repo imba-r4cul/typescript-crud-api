@@ -2,7 +2,13 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import { errorHandler } from './_middleware/errorHandler';
+import { authenticateJWT, authorizeRole } from './_middleware/auth.middleware';
 import { initialize } from './_helpers/db';
+import { Role } from './_helpers/role';
+import authController from './auth/auth.controller';
+import departmentsController from './departments/departments.controller';
+import employeesController from './employees/employees.controller';
+import requestsController from './requests/requests.controller';
 import usersController from './users/users.controller';
 
 const app: Application = express();
@@ -13,7 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // API Routes
-app.use('/users', usersController);
+app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+app.use('/auth', authController);
+app.use('/users', authenticateJWT, authorizeRole(Role.Admin), usersController);
+app.use('/departments', authenticateJWT, authorizeRole(Role.Admin), departmentsController);
+app.use('/employees', authenticateJWT, authorizeRole(Role.Admin), employeesController);
+app.use('/requests', authenticateJWT, requestsController);
 
 // Global Error Handler (must be last)
 app.use(errorHandler);
